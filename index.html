@@ -10,31 +10,48 @@
 :root{
   --bg:#F4F4F1; --card:#FFFFFF; --ink:#151515; --sub:#6B6B66; --line:#E3E2DC;
   --accent:#FF5C00; --ok:#1F8A4C; --okbg:#E6F4EC; --warn:#A86A00; --warnbg:#FFF4D6;
-  --ng:#C62828; --ngbg:#FDE8E8;
+  --ng:#C62828; --ngbg:#FDE8E8; --pre:#1F3864; --prebg:#E8EEF8;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
 body{font-family:'Noto Sans KR',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-tap-highlight-color:transparent}
 .wrap{max-width:560px;margin:0 auto;padding:16px 16px 120px}
-header{display:flex;align-items:center;justify-content:space-between;padding:6px 0 18px}
+header{display:flex;align-items:center;justify-content:space-between;padding:6px 0 14px}
 .brand{display:flex;align-items:center;gap:10px}
 .mark{width:34px;height:34px;border-radius:50%;border:3px solid var(--ink);position:relative}
 .mark::after{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--accent)}
 .brand b{font-size:20px;font-weight:900;letter-spacing:-.5px}
 .brand small{display:block;font-size:11px;color:var(--sub);font-weight:500;margin-top:1px}
 .icon-btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;font:inherit;font-size:13px;color:var(--ink)}
-.shot{position:relative;background:var(--ink);border-radius:18px;overflow:hidden;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;color:#fff}
-.shot img{width:100%;height:100%;object-fit:cover;display:block}
-[hidden]{display:none!important}
-.shot .empty{text-align:center;padding:24px;opacity:.85}
-.shot .empty .ring{width:86px;height:86px;border-radius:50%;border:4px solid #fff;margin:0 auto 16px;position:relative}
-.shot .empty .ring::after{content:"";position:absolute;inset:12px;border-radius:50%;background:var(--accent)}
-.shot .empty p{font-size:15px;font-weight:700}
-.shot .empty span{display:block;font-size:12px;opacity:.7;margin-top:6px;line-height:1.6}
-.scan{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(255,92,0,.35) 50%,transparent 100%);background-size:100% 40%;background-repeat:no-repeat;animation:scan 1.4s linear infinite;display:none}
-.scanning .scan{display:block}
+
+.motto{border-left:3px solid var(--accent);padding:2px 0 2px 12px;margin:0 0 14px}
+.motto b{display:block;font-size:15px;font-weight:700;letter-spacing:-.2px}
+.motto span{display:block;font-size:12px;color:var(--sub);margin-top:3px}
+.mode{display:grid;grid-template-columns:1fr 1fr;background:#E7E6E0;border-radius:14px;padding:4px;gap:4px}
+.mode button{border:0;background:transparent;border-radius:11px;padding:11px 6px;font:inherit;color:var(--sub);text-align:center}
+.mode button b{display:block;font-size:15px;font-weight:700}
+.mode button span{display:block;font-size:11px;margin-top:2px}
+.mode button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.mode button.on[data-m="pre"] b{color:var(--pre)}
+.mode button.on[data-m="post"] b{color:var(--accent)}
+.guide{font-size:12px;color:var(--sub);line-height:1.6;margin:10px 2px 12px}
+
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.slot{position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:var(--ink);color:#fff;border:0;font:inherit;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot .lb{position:relative;font-size:13px;font-weight:700}
+.slot .ds{position:relative;font-size:10px;opacity:.7;margin-top:4px;padding:0 6px;line-height:1.4}
+.slot .plus{position:relative;width:34px;height:34px;border-radius:50%;border:2px solid #fff;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1}
+.slot.req .plus{border-color:var(--accent);color:var(--accent)}
+.slot.filled .lb,.slot.filled .ds,.slot.filled .plus{display:none}
+.slot .tagname{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.55);border-radius:8px;padding:2px 7px;font-size:10px;display:none}
+.slot.filled .tagname{display:block}
+.slot .del{position:absolute;right:6px;top:6px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:14px;display:none;align-items:center;justify-content:center}
+.slot.filled .del{display:flex}
+.scan{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(255,92,0,.4) 50%,transparent 100%);background-size:100% 40%;background-repeat:no-repeat;animation:scan 1.4s linear infinite;display:none}
+.scanning .slot.filled .scan{display:block}
 @keyframes scan{0%{background-position:0 -40%}100%{background-position:0 140%}}
-.retake{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);color:#fff;border:0;border-radius:20px;padding:7px 12px;font:inherit;font-size:12px;display:none}
-.has-img .retake{display:block}
+
 .opts{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:12px}
 .opts h3{font-size:12px;color:var(--sub);font-weight:700;margin-bottom:10px}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -44,19 +61,22 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
 .field label{display:block;font-size:11px;color:var(--sub);margin-bottom:4px}
 .field input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:16px;background:#fff}
 .field input:focus{outline:none;border-color:var(--accent)}
+
 .cta{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(244,244,241,0),var(--bg) 30%)}
-.cta .in{max-width:560px;margin:0 auto;display:flex;gap:8px}
-.btn{flex:1;border:0;border-radius:14px;padding:16px;font:inherit;font-size:16px;font-weight:700}
-.btn.cam{background:var(--ink);color:#fff}
-.btn.go{background:var(--accent);color:#fff}
+.cta .in{max-width:560px;margin:0 auto}
+.btn{width:100%;border:0;border-radius:14px;padding:16px;font:inherit;font-size:16px;font-weight:700;background:var(--accent);color:#fff}
+.btn.pre{background:var(--pre)}
 .btn:disabled{opacity:.35}
+.btn.ghost{background:var(--ink)}
+
 .result{margin-top:14px;display:none}
 .result.show{display:block;animation:up .3s ease}
 @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .verdict{border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px}
 .verdict .dot{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;font-weight:900}
 .verdict b{font-size:20px;font-weight:900;display:block}
-.verdict span{font-size:13px;opacity:.85;line-height:1.5}
+.verdict small{display:block;font-size:11px;font-weight:700;opacity:.8;margin-bottom:2px}
+.verdict span{font-size:13px;opacity:.9;line-height:1.5}
 .v-ok{background:var(--okbg);color:var(--ok)} .v-ok .dot{background:var(--ok)}
 .v-warn{background:var(--warnbg);color:var(--warn)} .v-warn .dot{background:var(--warn)}
 .v-ng{background:var(--ngbg);color:var(--ng)} .v-ng .dot{background:var(--ng)}
@@ -71,9 +91,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
 .item em{font-style:normal;font-size:11px;color:var(--accent);font-weight:700}
 .fix li{font-size:14px;line-height:1.6;margin-left:18px;padding:2px 0}
 .calc{font-size:13px;line-height:1.7}
-.calc b{color:var(--ink)}
+.drawing{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:#F6F6F3;border-radius:10px;padding:10px 12px;line-height:1.6;word-break:break-all}
 .note{font-size:11px;color:var(--sub);text-align:center;margin-top:14px;line-height:1.6}
 .err{background:var(--ngbg);color:var(--ng);border-radius:12px;padding:12px;font-size:13px;margin-top:12px;display:none;line-height:1.6}
+
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;z-index:10}
 .sheet.show{display:flex}
 .sheet .pane{background:var(--card);width:100%;max-width:560px;margin:0 auto;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}
@@ -81,8 +102,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
 .pane p{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:12px}
 .pane .field{margin-bottom:10px}
 .pane select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:15px;background:#fff}
+.pane .row button{padding:13px}
 .hist{font-size:13px}
-.hist .h{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line)}
+.hist .h{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid var(--line)}
+.hist .h span{color:var(--sub)}
 </style>
 </head>
 <body>
@@ -92,20 +115,23 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
     <button class="icon-btn" id="openSet">설정</button>
   </header>
 
-  <div class="shot" id="shot">
-    <div class="empty" id="empty">
-      <div class="ring"></div>
-      <p>출입구를 찍어주세요</p>
-      <span>문 앞 바닥부터 계단·경사로 전체가<br>한 화면에 들어오게 비스듬히</span>
-    </div>
-    <img id="preview" alt="" hidden>
-    <div class="scan"></div>
-    <button class="retake" id="retake">다시 찍기</button>
+  <div class="motto"><b>고객의 첫걸음이 가장 안전해야 합니다.</b><span>1cm의 턱도 누군가에게는 넘어지는 이유가 됩니다.</span></div>
+
+  <div class="mode" id="mode">
+    <button data-m="pre" class="on"><b>공사 전</b><span>실측 · 설계 반영</span></button>
+    <button data-m="post"><b>공사 후</b><span>준공 검수</span></button>
+  </div>
+  <p class="guide" id="guide"></p>
+
+  <div class="shots" id="shots">
+    <button class="slot req" data-i="0"><span class="plus">+</span><span class="lb">① 정면 전체</span><span class="ds">문 앞 바닥부터 출입문까지</span><span class="tagname">정면</span><span class="del" data-del="0">×</span><div class="scan"></div></button>
+    <button class="slot" data-i="1"><span class="plus">+</span><span class="lb">② 측면</span><span class="ds">옆에서 낮게 · 선택</span><span class="tagname">측면</span><span class="del" data-del="1">×</span><div class="scan"></div></button>
+    <button class="slot" data-i="2"><span class="plus">+</span><span class="lb">③ 근접</span><span class="ds" id="ds3">계단 코 · 끝단 · 선택</span><span class="tagname">근접</span><span class="del" data-del="2">×</span><div class="scan"></div></button>
   </div>
   <input type="file" id="file" accept="image/*" capture="environment" hidden>
 
   <div class="opts">
-    <h3>현장 정보 (선택 · 입력하면 더 정확해요)</h3>
+    <h3>현장 정보 (선택 · 실측값을 넣으면 더 정확해요)</h3>
     <div class="chips" id="typeChips">
       <button class="chip" data-v="경사로">경사로</button>
       <button class="chip" data-v="계단">계단</button>
@@ -123,23 +149,24 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
   <div class="result" id="result">
     <div class="verdict" id="verdict"></div>
     <div class="card" id="calcCard" hidden><h4>치수 판정 (입력값 기준)</h4><div class="calc" id="calc"></div></div>
-    <div class="card"><h4>사진 판정 항목</h4><div id="items"></div></div>
-    <div class="card"><h4>개선 방법</h4><ul class="fix" id="fixes"></ul></div>
+    <div class="card" id="planCard" hidden><h4>설계 반영 사항</h4><ul class="fix" id="plan"></ul></div>
+    <div class="card" id="drawCard" hidden><h4>도면 표기 예시</h4><div class="drawing" id="drawing"></div></div>
+    <div class="card"><h4 id="itemsTitle">판정 항목</h4><div id="items"></div></div>
+    <div class="card" id="fixCard"><h4 id="fixTitle">개선 방법</h4><ul class="fix" id="fixes"></ul></div>
     <div class="card" id="measureCard" hidden><h4>현장에서 측정 필요</h4><ul class="fix" id="measure"></ul></div>
-    <div class="card" id="histCard"><h4>최근 판정</h4><div class="hist" id="hist"></div></div>
-    <p class="note">기준: 편의점 출입구 안전 시공 기준서 Ver.1 (2026.05.15)<br>AI 보조 판정입니다 · 최종 판단은 시설지원팀 확인</p>
+    <div class="card"><h4>최근 판정</h4><div class="hist" id="hist"></div></div>
+    <p class="note">작은 단차 하나가 사고를 막습니다. 판정 결과를 시공에 꼭 반영해주세요.<br>기준: 편의점 출입구 안전 시공 기준서 Ver.1 (2026.05.15)<br>AI 보조 판정입니다 · 최종 판단은 시설지원팀 확인</p>
   </div>
 </div>
 
 <div class="cta"><div class="in">
-  <button class="btn cam" id="camBtn">📷 촬영</button>
-  <button class="btn go" id="goBtn" disabled>판정하기</button>
+  <button class="btn pre" id="goBtn" disabled>정면 사진을 먼저 찍어주세요</button>
 </div></div>
 
 <div class="sheet" id="sheet"><div class="pane">
   <h3>설정</h3>
-  <p id="setHelp">Gemini API 키는 이 기기 브라우저에만 저장돼요. 다른 사람에게 링크를 보내도 키는 전달되지 않아요.</p>
-  <div class="field" id="passField" hidden><label>팀 비밀번호</label><input id="pass" type="password" placeholder="팀장에게 받은 비밀번호"></div>
+  <p id="setHelp">Gemini API 키는 이 기기 브라우저에만 저장돼요.</p>
+  <div class="field" id="passField" hidden><label>팀 비밀번호</label><input id="pass" type="password" placeholder="담당자에게 받은 비밀번호"></div>
   <div class="field" id="keyField"><label>Gemini API 키</label><input id="key" type="password" placeholder="AIza..."></div>
   <div class="field"><label>모델</label>
     <select id="model">
@@ -151,8 +178,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
     </select>
   </div>
   <div class="row" style="margin-top:6px">
-    <button class="btn cam" id="closeSet" style="padding:13px">닫기</button>
-    <button class="btn go" id="saveSet" style="padding:13px">저장</button>
+    <button class="btn ghost" id="closeSet">닫기</button>
+    <button class="btn" id="saveSet">저장</button>
   </div>
 </div></div>
 
@@ -160,36 +187,88 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
 // ▼ 중간 서버(Apps Script 웹 앱) 주소. 비워두면 각자 API 키 입력 방식으로 동작
 const PROXY_URL = 'https://script.google.com/macros/s/AKfycbwpM7mHPLVeWFW_XAMtINQ_QxV79V8qrQ3U6NnHWcmZHi7gnq_2jrxZhqCEoNdWMgdY/exec';
 
-const PROMPT = `당신은 GS25 편의점 출입구 안전 시공 검수자입니다. 사진에 보이는 출입구를 아래 기준서로 판정하세요.
-
-[기준서: 편의점 출입구 안전 시공 기준서 Ver.1]
+const CRITERIA = `[기준서: 편의점 출입구 안전 시공 기준서 Ver.1 (2026.05.15)]
 - 출입구 1개소에 계단과 경사로를 혼합 시공하지 않는다 (8p)
 - 단차 20mm 이하는 턱 낮추기, 20mm 초과는 경사로 (8p)
-- 단차 150mm 이하 경사로 기본, 150~250mm 담당자 협의, 2단 이상 계단 (도면가이드 4-1)
-- 경사로: 경사 1/12 (불가피 1/8), 유효폭 1200 (최소 900), 길이 1.8m 이상 또는 높이 150 이상이면 손잡이, 논슬립 300mm 간격, 5줄 이상이면 시작·끝 황색, 돌출로 발걸림 우려 시 측면경사, 금속 단부 라운드 (6p)
-- 계단: 디딤판 280~300 균일, 챌면 160~180 균일(최대 200), 4단 이상 난간 H850~900, 마지막 단 모서리 30x30 모접기, 디딤판 가장자리 논슬립 (4p)
-- 논슬립 테이프: 기본 흑색, 4단 이상·100mm 미만 챌면·불규칙 단차는 첫 단·끝 단 황색 (9p)
+- 단차 150mm 이하 경사로 기본, 150~250mm 시설담당자 협의, 250mm 초과·2단 이상 계단 (도면가이드 4-1)
+- 경사로: 경사 1/12 (불가피 1/8), 유효폭 1200 (최소 900), 길이 1.8m 이상 또는 높이 150 이상이면 양측 손잡이, 논슬립 300mm 간격 흑색·5줄 이상이면 시작·끝 황색, 돌출로 발걸림 우려 시 측면경사, 금속 단부 라운드 (6p)
+- 계단: 디딤판 280~300 균일, 챌면 160~180 균일(최대 200), 4단 이상 난간 H850~900, 지면 마지막 단 모서리 30x30 모접기, 디딤판 가장자리 논슬립, 출입문 앞 첫 디딤판은 가능하면 참 확보 (4p)
+- 논슬립 테이프: 3M L385 흑색 / L381 황색, 가장자리 10mm 이격, 4단 이상·100mm 미만 챌면·불규칙 단차는 첫 단·끝 단 황색 (9p)
 - 100mm 미만 계단은 황색 논슬립 + 고객안전 표지물 (8p)
 - 균일 시공 불가 시 컬러 전환으로 인지 유도, 인지오류 예상 시 난간·표지물 (8p)
-- 출입문 유효폭 900 이상, 자동문 아니면 문 옆 활동공간 600 이상, 문 앞 300 이격 점형블록 (2p)
-- 강화도어 하부 바닥 높이차 30mm 이상이면 발안전보호대 (12p)
+- 출입문 유효폭 900 이상(1000 도어), 자동문 아니면 문 옆 활동공간 600 이상, 문 앞 300 이격 점형블록 (2p)
+- 강화도어 하부 바닥 높이차 30mm 이상이면 발안전보호대 (12p)`;
 
-[판정 규칙]
-- 사진에서 확실히 보이는 것만 판정한다. 보이지 않거나 애매하면 status를 "warn"으로 하고 "확인 필요"라고 쓴다.
-- mm 치수를 사진으로 추정해 단정하지 않는다. 치수가 필요한 항목은 need_measure에 넣는다.
-- 사람이 제공한 현장 정보가 있으면 우선 반영한다.
-- 한국어, 현장소장이 바로 이해하는 짧은 문장.
+const RULES = `[공통 규칙]
+- 사진 순서: ①정면 전체 ②측면 ③근접 (없는 사진은 생략됨). 여러 장을 종합해 판단한다.
+- 사진에서 확실히 보이는 것만 단정한다. 안 보이거나 애매하면 status "warn".
+- mm 치수를 사진으로 추정해 단정하지 않는다. 필요한 치수는 need_measure에 넣는다.
+- 사람이 입력한 현장 정보(구분·단차·단수)가 있으면 우선 반영한다.
+- 한국어, 현장소장이 바로 이해하는 짧은 문장. 각 항목에 기준서 쪽수.`;
+
+const PROMPT = {
+  pre: `당신은 GS25 편의점 출입구 공사 전 실측·설계 검토자입니다.
+사진은 공사 전 현재 상태입니다. 아직 시공하지 않은 항목(논슬립 미부착 등)을 위반으로 판정하지 마세요.
+목적: 이 현장에 어떤 출입구를 어떻게 설계·시공해야 기준서를 지킬 수 있는지 안내.
+
+${CRITERIA}
+
+${RULES}
+
+[판단 관점]
+- 현재 단차 형태(턱/계단/경사)와 단수, 출입문 형식(강화도어·자동문), 문 위치
+- 권장 시공 방식, 그리고 그 방식을 이 현장에 적용할 수 있는지 (경사로 길이·폭 확보 공간, 보도·주차장 경계, 기둥·배수구·장애물)
+- 현재 위험 요소 (파손, 미끄러운 바닥, 불규칙 단차) → 공사 시 반드시 해결할 것
+
+[overall 의미]
+ok = 기준대로 시공 가능 / warn = 실측·현장 확인 후 결정 / ng = 기준 시공이 어려워 시설담당자 협의 필요
 
 [출력: JSON만]
 {
- "overall": "ok|warn|ng",
- "detected": "사진에서 인식한 출입구 형태 한 줄 (예: 금속 체크철판 경사로 + 강화도어 양개)",
- "summary": "한 줄 총평",
- "items": [{"status":"ok|warn|ng","title":"항목명","detail":"근거 설명","ref":"기준서 쪽수"}],
- "fixes": ["구체적 개선 방법"],
- "need_measure": ["현장에서 재야 할 치수"]
+ "overall":"ok|warn|ng",
+ "detected":"현재 출입구 상태 한 줄",
+ "summary":"권장 시공 방향 한 줄",
+ "items":[{"status":"ok|warn|ng","title":"검토 항목","detail":"현장 상황과 판단","ref":"기준서 쪽수"}],
+ "plan":["설계·시공에 반영할 사항 (구체적 수치 포함)"],
+ "drawing":"도면 표기 예시 (예: SLOPE H:120 / 1:12 / W:1200 / L:1440) 또는 빈 문자열",
+ "need_measure":["실측해야 할 치수"]
 }
-items는 3~7개, 문제(ng) 먼저.`;
+items 3~6개(제약 먼저), plan 3~7개.`,
+
+  post: `당신은 GS25 편의점 출입구 준공 검수자입니다.
+사진은 시공이 끝난 상태입니다. 기준서대로 시공됐는지 판정하세요.
+
+${CRITERIA}
+
+${RULES}
+
+[검수 관점]
+- 혼합 시공 여부, 논슬립 유무·색상·간격, 모접기, 난간·손잡이, 금속 단부, 측면경사, 점형블록, 발안전보호대, 표지물
+- 디딤판·챌면 균일성 (눈으로 보이는 범위)
+
+[overall 의미]
+ok = 적합 / warn = 확인 필요 항목 있음 / ng = 기준 미달 항목 있음
+
+[출력: JSON만]
+{
+ "overall":"ok|warn|ng",
+ "detected":"시공된 출입구 형태 한 줄",
+ "summary":"한 줄 총평",
+ "items":[{"status":"ok|warn|ng","title":"검수 항목","detail":"근거","ref":"기준서 쪽수"}],
+ "fixes":["보완 방법"],
+ "need_measure":["실측 확인이 필요한 치수"]
+}
+items 3~8개, 미달(ng) 먼저.`
+};
+
+const MODE = {
+  pre: { labels:{ok:'기준 시공 가능',warn:'실측 후 결정',ng:'담당자 협의 필요'}, head:'공사 전 · 설계 검토',
+         guide:'공사 전 현재 출입구를 찍으면 어떤 방식으로, 어떤 치수로 시공해야 하는지 알려드려요.',
+         itemsTitle:'현장 검토 항목', ds3:'단차 · 배수 · 장애물 · 선택', btn:'설계 검토하기' },
+  post:{ labels:{ok:'적합',warn:'검토 필요',ng:'부적합'}, head:'공사 후 · 준공 검수',
+         guide:'시공이 끝난 출입구를 찍으면 기준서대로 시공됐는지 검수해드려요.',
+         itemsTitle:'검수 항목', ds3:'계단 코 · 끝단 · 선택', btn:'준공 검수하기' }
+};
 
 const MODELS = ['gemini-flash-latest','gemini-3.8-flash','gemini-3.6-flash','gemini-3.5-flash-lite'];
 const $ = id => document.getElementById(id);
@@ -197,20 +276,50 @@ const store = {
   get(k,d){try{return localStorage.getItem(k) ?? d}catch{return d}},
   set(k,v){try{localStorage.setItem(k,v)}catch{}}
 };
-let img64 = null, type = '';
+const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-// 촬영
-$('camBtn').onclick = () => $('file').click();
-$('retake').onclick = () => $('file').click();
+let mode = store.get('gl_mode','pre'); if(!MODE[mode]) mode='pre';
+let imgs = [null,null,null], cur = 0, type = '';
+
+// ── 모드
+function setMode(m){
+  mode = m; store.set('gl_mode',m);
+  document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  $('guide').textContent = MODE[m].guide;
+  $('ds3').textContent = MODE[m].ds3;
+  $('goBtn').classList.toggle('pre', m==='pre');
+  $('result').classList.remove('show');
+  refreshBtn();
+}
+document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+
+function refreshBtn(){
+  const n = imgs.filter(Boolean).length;
+  $('goBtn').disabled = !imgs[0];
+  $('goBtn').textContent = !imgs[0] ? '정면 사진을 먼저 찍어주세요' : `${MODE[mode].btn} (사진 ${n}장)`;
+}
+
+// ── 사진 슬롯
+document.querySelectorAll('.slot').forEach(s => s.onclick = e => {
+  if(e.target.dataset.del !== undefined){
+    const i = +e.target.dataset.del; imgs[i] = null;
+    s.classList.remove('filled'); const im = s.querySelector('img'); if(im) im.remove();
+    refreshBtn(); return;
+  }
+  cur = +s.dataset.i; $('file').click();
+});
 $('file').onchange = async e => {
   const f = e.target.files[0]; if(!f) return;
-  img64 = await shrink(f, 1280);
-  $('preview').src = 'data:image/jpeg;base64,' + img64;
-  $('preview').hidden = false; $('empty').hidden = true;
-  $('shot').classList.add('has-img');
-  $('goBtn').disabled = false;
-  $('result').classList.remove('show'); $('err').style.display='none';
+  try{
+    imgs[cur] = await shrink(f, 1280);
+    const s = document.querySelector(`.slot[data-i="${cur}"]`);
+    let im = s.querySelector('img'); if(!im){ im = document.createElement('img'); s.prepend(im); }
+    im.src = 'data:image/jpeg;base64,' + imgs[cur];
+    s.classList.add('filled');
+  }catch{ showErr('사진을 불러오지 못했어요'); }
   e.target.value = '';
+  $('result').classList.remove('show'); $('err').style.display='none';
+  refreshBtn();
 };
 function shrink(file, max){
   return new Promise((res,rej)=>{
@@ -222,7 +331,7 @@ function shrink(file, max){
         const c = document.createElement('canvas');
         c.width = Math.round(im.width*s); c.height = Math.round(im.height*s);
         c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-        res(c.toDataURL('image/jpeg',0.85).split(',')[1]);
+        res(c.toDataURL('image/jpeg',0.82).split(',')[1]);
       };
       im.onerror = rej; im.src = r.result;
     };
@@ -230,14 +339,14 @@ function shrink(file, max){
   });
 }
 
-// 구분 칩
+// ── 구분 칩
 document.querySelectorAll('#typeChips .chip').forEach(b => b.onclick = () => {
   const on = !b.classList.contains('on');
   document.querySelectorAll('#typeChips .chip').forEach(x=>x.classList.remove('on'));
   if(on){ b.classList.add('on'); type = b.dataset.v; } else type = '';
 });
 
-// 설정
+// ── 설정
 if(PROXY_URL){
   $('keyField').hidden = true; $('passField').hidden = false;
   $('setHelp').textContent = '팀 비밀번호를 한 번 입력하면 이 기기에 저장돼요.';
@@ -253,70 +362,69 @@ $('saveSet').onclick = () => {
   store.set('gl_model',$('model').value); $('sheet').classList.remove('show');
 };
 
-// 치수 판정 (규칙 기반, AI와 별개)
+// ── 치수 판정 (규칙 기반)
 function calcRule(h, n, t){
   if(!h) return null;
   const out = [];
-  let rec = h<=20?'턱 낮추기':h<=150?'경사로 기본시공':h<=250?'시설담당자 협의':'계단 기본시공';
+  const rec = h<=20?'턱 낮추기':h<=150?'경사로 기본시공':h<=250?'시설담당자 협의':'계단 기본시공';
   out.push(`단차 <b>${h}mm</b> → 권장 <b>${rec}</b>`);
   if(t==='복합') out.push('🚫 계단+경사로 혼합 시공 금지');
   if(h>20 && h<=250) out.push(`경사로 최소 길이 1/12: <b>${(h*12).toLocaleString()}mm</b> · 1/8: ${(h*8).toLocaleString()}mm`);
-  if(h>=150 || h*12>=1800) out.push('경사로 시공 시 양측 손잡이 필요');
+  if(h>20 && (h>=150 || h*12>=1800)) out.push('경사로 시공 시 양측 손잡이 필요');
   if(n){
     const e = Math.round(h/n);
-    let s = e>200?'🚫 최대 200 초과':e<100?'⚠️ 100 미만 → 황색 논슬립+표지물':(e>=160&&e<=180)?'✅ 기준 내':'⚠️ 권장 160~180';
+    const s = e>200?'🚫 최대 200 초과':e<100?'⚠️ 100 미만 → 황색 논슬립+표지물':(e>=160&&e<=180)?'✅ 기준 내':'⚠️ 권장 160~180';
     out.push(`각 단 높이 <b>${e}mm</b> ${s}`);
     if(n>=4) out.push('4단 이상 → 난간 H850~900 + 첫·끝 단 황색 논슬립');
   }
   return out;
 }
 
-// 판정
+// ── 판정
 $('goBtn').onclick = analyze;
 async function analyze(){
-  const key = store.get('gl_key',''), pass = store.get('gl_pass','');
   if(!ready()){ $('openSet').click(); return; }
+  const key = store.get('gl_key',''), pass = store.get('gl_pass','');
   const h = parseInt($('h').value)||0, n = parseInt($('n').value)||0;
-  const ctx = `[현장 정보] 구분: ${type||'미선택'} / 총단차: ${h?h+'mm':'미입력'} / 계단단수: ${n||'미입력'}`;
+  const names = ['①정면 전체','②측면','③근접'];
+  const sent = imgs.map((d,i)=>d?names[i]:null).filter(Boolean);
+  const ctx = `[현장 정보] 단계: ${mode==='pre'?'공사 전':'공사 후'} / 구분: ${type||'미선택'} / 총단차: ${h?h+'mm':'미입력'} / 계단단수: ${n||'미입력'}\n[첨부 사진] ${sent.join(', ')} (이 순서로 첨부됨)`;
 
-  $('goBtn').disabled = true; $('goBtn').textContent = '판정 중...';
-  $('shot').classList.add('scanning'); $('err').style.display='none';
+  const parts = [{text: PROMPT[mode] + '\n\n' + ctx}];
+  imgs.forEach(d => { if(d) parts.push({inline_data:{mime_type:'image/jpeg',data:d}}); });
+  const body = { contents:[{parts}], generationConfig:{responseMimeType:'application/json',temperature:0.2} };
+
+  $('goBtn').disabled = true; $('goBtn').textContent = '고객의 첫걸음을 확인하고 있어요...';
+  document.body.classList.add('scanning'); $('err').style.display='none';
 
   const pref = store.get('gl_model','auto');
   const list = pref==='auto' ? MODELS : [pref];
   let data = null, lastErr = '';
-  const body = {
-    contents:[{parts:[{text:PROMPT+'\n\n'+ctx},{inline_data:{mime_type:'image/jpeg',data:img64}}]}],
-    generationConfig:{responseMimeType:'application/json',temperature:0.2}
-  };
+  const parse = t => JSON.parse(String(t).replace(/^\s*```json|```\s*$/g,'').trim());
+
   if(PROXY_URL){
     try{
       const r = await fetch(PROXY_URL,{method:'POST',body:JSON.stringify({pass,models:list,body})});
       const j = await r.json();
-      if(j.ok){ data = JSON.parse(j.text.replace(/^```json|```$/g,'').trim()); data._model = j.model; }
+      if(j.ok){ data = parse(j.text); data._model = j.model; }
       else lastErr = j.error || '서버 오류';
     }catch(e){ lastErr = e.message; }
-  }
-  for(const m of (PROXY_URL ? [] : list)){
-    try{
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`,{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-goog-api-key':key},
-        body:JSON.stringify({
-          contents:[{parts:[{text:PROMPT+'\n\n'+ctx},{inline_data:{mime_type:'image/jpeg',data:img64}}]}],
-          generationConfig:{responseMimeType:'application/json',temperature:0.2}
-        })
-      });
-      const j = await r.json();
-      if(!r.ok){ lastErr = j.error?.message || r.status; if(r.status===404||r.status===400) continue; break; }
-      const txt = j.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('') || '';
-      data = JSON.parse(txt.replace(/^```json|```$/g,'').trim());
-      data._model = m; break;
-    }catch(e){ lastErr = e.message; }
+  } else {
+    for(const m of list){
+      try{
+        const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`,{
+          method:'POST', headers:{'Content-Type':'application/json','x-goog-api-key':key}, body:JSON.stringify(body)
+        });
+        const j = await r.json();
+        if(!r.ok){ lastErr = j.error?.message || r.status; if(r.status===404||r.status===400) continue; break; }
+        data = parse(j.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('') || '');
+        data._model = m; break;
+      }catch(e){ lastErr = e.message; }
+    }
   }
 
-  $('shot').classList.remove('scanning');
-  $('goBtn').disabled = false; $('goBtn').textContent = '다시 판정';
+  document.body.classList.remove('scanning');
+  refreshBtn();
   if(!data){ showErr(lastErr); return; }
   render(data, calcRule(h,n,type));
 }
@@ -330,39 +438,46 @@ function showErr(m){
   $('err').innerHTML = '판정에 실패했어요: ' + esc(String(m)) + tip;
   $('err').style.display='block';
 }
-const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const SYM = {ok:'✓',warn:'!',ng:'✕'};
+const ul = (el, arr) => { $(el).innerHTML = (arr||[]).map(x=>`<li>${esc(x)}</li>`).join(''); return (arr||[]).length; };
 
 function render(d, calc){
+  const M = MODE[mode];
   let ov = ['ok','warn','ng'].includes(d.overall)?d.overall:'warn';
   if(calc && calc.some(x=>x.includes('🚫'))) ov = 'ng';
-  const label = {ok:'적합',warn:'검토 필요',ng:'부적합'}[ov];
-  const sym = {ok:'✓',warn:'!',ng:'✕'}[ov];
+  const label = M.labels[ov];
   $('verdict').className = 'verdict v-'+ov;
-  $('verdict').innerHTML = `<div class="dot">${sym}</div><div><b>${label}</b><span>${esc(d.summary)}<br>인식: ${esc(d.detected)}</span></div>`;
+  $('verdict').innerHTML = `<div class="dot">${SYM[ov]}</div><div><small>${M.head}</small><b>${label}</b><span>${esc(d.summary)}<br>인식: ${esc(d.detected)}</span></div>`;
 
-  if(calc){ $('calcCard').hidden=false; $('calc').innerHTML = calc.map(x=>`<div>${x}</div>`).join(''); }
-  else $('calcCard').hidden=true;
+  $('calcCard').hidden = !calc;
+  if(calc) $('calc').innerHTML = calc.map(x=>`<div>${x}</div>`).join('');
 
+  $('planCard').hidden = !(mode==='pre' && ul('plan', d.plan));
+  $('drawCard').hidden = !(mode==='pre' && d.drawing);
+  $('drawing').textContent = d.drawing || '';
+
+  $('itemsTitle').textContent = M.itemsTitle;
   const ord = {ng:0,warn:1,ok:2};
-  $('items').innerHTML = (d.items||[]).sort((a,b)=>(ord[a.status]??1)-(ord[b.status]??1)).map(it=>{
+  $('items').innerHTML = (d.items||[]).slice().sort((a,b)=>(ord[a.status]??1)-(ord[b.status]??1)).map(it=>{
     const s = ['ok','warn','ng'].includes(it.status)?it.status:'warn';
-    return `<div class="item"><div class="tag t-${s}">${{ok:'✓',warn:'!',ng:'✕'}[s]}</div><div><b>${esc(it.title)}</b><p>${esc(it.detail)}</p>${it.ref?`<em>${esc(it.ref)}</em>`:''}</div></div>`;
+    return `<div class="item"><div class="tag t-${s}">${SYM[s]}</div><div><b>${esc(it.title)}</b><p>${esc(it.detail)}</p>${it.ref?`<em>${esc(it.ref)}</em>`:''}</div></div>`;
   }).join('');
-  $('fixes').innerHTML = (d.fixes||[]).map(f=>`<li>${esc(f)}</li>`).join('') || '<li>특이사항 없음</li>';
-  const ms = d.need_measure||[];
-  $('measureCard').hidden = !ms.length;
-  $('measure').innerHTML = ms.map(f=>`<li>${esc(f)}</li>`).join('');
 
-  // 최근 기록 (이 기기에만)
+  $('fixCard').hidden = !(mode==='post');
+  if(mode==='post' && !ul('fixes', d.fixes)) $('fixes').innerHTML = '<li>보완 사항 없음</li>';
+  $('measureCard').hidden = !ul('measure', d.need_measure);
+
   let hist = []; try{ hist = JSON.parse(store.get('gl_hist','[]')); }catch{}
-  hist.unshift({t:new Date().toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}),v:label,d:d.detected});
+  hist.unshift({t:new Date().toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}),m:mode==='pre'?'공사 전':'공사 후',v:label,d:d.detected});
   hist = hist.slice(0,10); store.set('gl_hist',JSON.stringify(hist));
-  $('hist').innerHTML = hist.map(x=>`<div class="h"><span>${esc(x.t)} · ${esc(x.d||'')}</span><b>${esc(x.v)}</b></div>`).join('');
+  $('hist').innerHTML = hist.map(x=>`<div class="h"><span>${esc(x.t)} · ${esc(x.m||'')} · ${esc(x.d||'')}</span><b>${esc(x.v)}</b></div>`).join('');
 
   $('result').classList.add('show');
   $('result').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
+setMode(mode);
 if(!ready()) setTimeout(()=>$('openSet').click(), 400);
 </script>
 </body>
