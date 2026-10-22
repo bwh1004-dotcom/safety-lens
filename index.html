@@ -138,8 +138,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
 
 <div class="sheet" id="sheet"><div class="pane">
   <h3>설정</h3>
-  <p>Gemini API 키는 이 기기 브라우저에만 저장돼요. 다른 사람에게 링크를 보내도 키는 전달되지 않아요.</p>
-  <div class="field"><label>Gemini API 키</label><input id="key" type="password" placeholder="AIza..."></div>
+  <p id="setHelp">Gemini API 키는 이 기기 브라우저에만 저장돼요. 다른 사람에게 링크를 보내도 키는 전달되지 않아요.</p>
+  <div class="field" id="passField" hidden><label>팀 비밀번호</label><input id="pass" type="password" placeholder="팀장에게 받은 비밀번호"></div>
+  <div class="field" id="keyField"><label>Gemini API 키</label><input id="key" type="password" placeholder="AIza..."></div>
   <div class="field"><label>모델</label>
     <select id="model">
       <option value="auto">자동 (최신 Flash 우선)</option>
@@ -156,6 +157,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:6px
 </div></div>
 
 <script>
+// ▼ 중간 서버(Apps Script 웹 앱) 주소. 비워두면 각자 API 키 입력 방식으로 동작
+const PROXY_URL = '';
+
 const PROMPT = `당신은 GS25 편의점 출입구 안전 시공 검수자입니다. 사진에 보이는 출입구를 아래 기준서로 판정하세요.
 
 [기준서: 편의점 출입구 안전 시공 기준서 Ver.1]
@@ -234,9 +238,20 @@ document.querySelectorAll('#typeChips .chip').forEach(b => b.onclick = () => {
 });
 
 // 설정
-$('openSet').onclick = () => { $('key').value = store.get('gl_key',''); $('model').value = store.get('gl_model','auto'); $('sheet').classList.add('show'); };
+if(PROXY_URL){
+  $('keyField').hidden = true; $('passField').hidden = false;
+  $('setHelp').textContent = '팀 비밀번호를 한 번 입력하면 이 기기에 저장돼요.';
+}
+const ready = () => PROXY_URL ? !!store.get('gl_pass','') : !!store.get('gl_key','');
+$('openSet').onclick = () => {
+  $('key').value = store.get('gl_key',''); $('pass').value = store.get('gl_pass','');
+  $('model').value = store.get('gl_model','auto'); $('sheet').classList.add('show');
+};
 $('closeSet').onclick = () => $('sheet').classList.remove('show');
-$('saveSet').onclick = () => { store.set('gl_key',$('key').value.trim()); store.set('gl_model',$('model').value); $('sheet').classList.remove('show'); };
+$('saveSet').onclick = () => {
+  store.set('gl_key',$('key').value.trim()); store.set('gl_pass',$('pass').value.trim());
+  store.set('gl_model',$('model').value); $('sheet').classList.remove('show');
+};
 
 // 치수 판정 (규칙 기반, AI와 별개)
 function calcRule(h, n, t){
@@ -259,8 +274,8 @@ function calcRule(h, n, t){
 // 판정
 $('goBtn').onclick = analyze;
 async function analyze(){
-  const key = store.get('gl_key','');
-  if(!key){ $('openSet').click(); return; }
+  const key = store.get('gl_key',''), pass = store.get('gl_pass','');
+  if(!ready()){ $('openSet').click(); return; }
   const h = parseInt($('h').value)||0, n = parseInt($('n').value)||0;
   const ctx = `[현장 정보] 구분: ${type||'미선택'} / 총단차: ${h?h+'mm':'미입력'} / 계단단수: ${n||'미입력'}`;
 
@@ -270,7 +285,19 @@ async function analyze(){
   const pref = store.get('gl_model','auto');
   const list = pref==='auto' ? MODELS : [pref];
   let data = null, lastErr = '';
-  for(const m of list){
+  const body = {
+    contents:[{parts:[{text:PROMPT+'\n\n'+ctx},{inline_data:{mime_type:'image/jpeg',data:img64}}]}],
+    generationConfig:{responseMimeType:'application/json',temperature:0.2}
+  };
+  if(PROXY_URL){
+    try{
+      const r = await fetch(PROXY_URL,{method:'POST',body:JSON.stringify({pass,models:list,body})});
+      const j = await r.json();
+      if(j.ok){ data = JSON.parse(j.text.replace(/^```json|```$/g,'').trim()); data._model = j.model; }
+      else lastErr = j.error || '서버 오류';
+    }catch(e){ lastErr = e.message; }
+  }
+  for(const m of (PROXY_URL ? [] : list)){
     try{
       const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`,{
         method:'POST',
@@ -296,7 +323,8 @@ async function analyze(){
 
 function showErr(m){
   let tip = '';
-  if(/API key|PERMISSION|403|401/i.test(m)) tip = '<br>→ 설정에서 API 키를 다시 확인해주세요.';
+  if(/비밀번호/.test(m)) tip = '<br>→ 설정에서 팀 비밀번호를 다시 확인해주세요.';
+  else if(/API key|PERMISSION|403|401/i.test(m)) tip = '<br>→ 설정에서 API 키를 다시 확인해주세요.';
   else if(/quota|429|RESOURCE/i.test(m)) tip = '<br>→ 무료 사용 한도를 넘었어요. 잠시 후 다시 시도해주세요.';
   else if(/fetch|network/i.test(m)) tip = '<br>→ 인터넷 연결을 확인해주세요.';
   $('err').innerHTML = '판정에 실패했어요: ' + esc(String(m)) + tip;
@@ -335,7 +363,7 @@ function render(d, calc){
   $('result').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-if(!store.get('gl_key','')) setTimeout(()=>$('openSet').click(), 400);
+if(!ready()) setTimeout(()=>$('openSet').click(), 400);
 </script>
 </body>
 </html>
